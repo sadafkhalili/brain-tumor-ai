@@ -1,0 +1,17 @@
+venv/
+
+**pycache**/
+
+*.pyc
+
+.DS_Store
+
+models/*.pth
+
+data/raw/
+
+data/train/
+
+data/valid/
+
+data/test/
