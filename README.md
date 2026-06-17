@@ -2,27 +2,71 @@
 
 ## Project Overview
 
-This project uses Deep Learning and Convolutional Neural Networks (CNNs) to classify brain MRI images into different tumor categories.
+This project is a deep learning-based medical image classification system for brain tumor diagnosis from MRI scans.
 
-The model is based on ResNet18 and is implemented using PyTorch.
+The model receives a brain MRI image and classifies it into one of three categories:
+
+* Brain Glioma
+* Brain Meningioma
+* Brain Tumor
+
+The system is implemented using PyTorch and Transfer Learning with the ResNet18 architecture.
+
+---
 
 ## Dataset
 
-The project is designed to work with brain MRI images organized into three classes:
+Dataset Size:
 
-* Glioma
-* Meningioma
-* Tumor
+* Total Images: 6056 MRI scans
 
-Dataset structure:
+Classes:
 
-data/raw/
+* brain_glioma (2004 images)
+* brain_menin (2004 images)
+* brain_tumor (2048 images)
 
-├── Glioma/
+Dataset Split:
 
-├── Meningioma/
+* Training Set: 4237 images
+* Validation Set: 907 images
+* Test Set: 912 images
 
-└── Tumor/
+---
+
+## Model Architecture
+
+* ResNet18
+* Transfer Learning
+* Cross Entropy Loss
+* Adam Optimizer
+* Early Stopping
+
+---
+
+## Results
+
+Validation Accuracy:
+
+95.81%
+
+Test Accuracy:
+
+95.39%
+
+Classification Performance:
+
+| Class            | Precision | Recall | F1-Score |
+| ---------------- | --------- | ------ | -------- |
+| Brain Glioma     | 0.98      | 0.96   | 0.97     |
+| Brain Meningioma | 0.92      | 0.97   | 0.95     |
+| Brain Tumor      | 0.97      | 0.93   | 0.95     |
+
+Overall Accuracy:
+
+95.39%
+
+---
 
 ## Project Structure
 
@@ -32,57 +76,58 @@ brain-tumor-ai/
 
 ├── models/
 
-├── notebooks/
+├── results/
 
 ├── src/
-
-│   ├── config.py
-
-│   ├── dataset.py
-
-│   ├── split_dataset.py
 
 │   ├── train.py
 
 │   ├── evaluate.py
 
-│   └── predict.py
+│   ├── predict.py
 
-└── README.md
+│   ├── confusion_matrix.py
+
+│   └── split_dataset.py
+
+├── README.md
+
+└── requirements.txt
+
+---
 
 ## Features
 
-* Automatic dataset splitting
-* Data loading using PyTorch DataLoader
-* Transfer Learning with ResNet18
-* Validation accuracy monitoring
-* Best model saving
-* Model evaluation
-* Prediction on new MRI images
+* Dataset Preparation
+* Dataset Splitting
+* Model Training
+* Model Evaluation
+* Brain Tumor Prediction
+* Confusion Matrix Generation
+* Model Saving and Loading
 
-## Training Pipeline
+---
 
-1. Place dataset in data/raw
-2. Run split_dataset.py
-3. Run train.py
-4. Run evaluate.py
-5. Run predict.py
+## Technologies Used
 
-## Model
+* Python
+* PyTorch
+* TorchVision
+* NumPy
+* Matplotlib
+* Scikit-Learn
 
-* Architecture: ResNet18
-* Framework: PyTorch
-* Input Size: 224×224
-* Output Classes: 3
+---
 
 ## Future Improvements
 
-* More MRI datasets
+* Larger MRI datasets
 * Data augmentation
-* Early stopping
-* Confusion matrix
-* Grad-CAM visualization
-* Deployment using Flask or Streamlit
+* Mobile deployment
+* Web application interface
+* Explainable AI (Grad-CAM)
+
+---
 
 ## Author
 

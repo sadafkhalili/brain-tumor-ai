@@ -1,16 +1,16 @@
 import torch
 import torch.nn as nn
 
-from torchvision import models
-from torchvision import transforms
-
 from PIL import Image
 
+from torchvision import transforms
+from torchvision import models
 
-CLASS_NAMES = [
-    "Glioma",
-    "Meningioma",
-    "Tumor"
+
+classes = [
+    "brain_glioma",
+    "brain_menin",
+    "brain_tumor"
 ]
 
 
@@ -37,8 +37,10 @@ model.load_state_dict(
 model.eval()
 
 
+image_path = "sample.jpg"
+
 image = Image.open(
-    "sample.jpg"
+    image_path
 ).convert("RGB")
 
 image = transform(image)
@@ -50,17 +52,13 @@ with torch.no_grad():
 
     output = model(image)
 
-    prediction = torch.argmax(
+    _, predicted = torch.max(
         output,
-        dim=1
+        1
     )
-
-    predicted_class = CLASS_NAMES[
-        prediction.item()
-    ]
 
 
 print(
     "Prediction:",
-    predicted_class
+    classes[predicted.item()]
 )

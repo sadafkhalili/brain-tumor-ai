@@ -1,29 +1,88 @@
-from torchvision import datasets
-from torchvision import transforms
-from torch.utils.data import DataLoader
+import os
+import random
+import shutil
 
-transform = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.ToTensor()
-])
+random.seed(42)
 
-dataset = datasets.ImageFolder(
-    root="data/train",
-    transform=transform
-)
+SOURCE_DIR = "data/raw"
 
-dataloader = DataLoader(
-    dataset,
-    batch_size=16,
-    shuffle=True
-)
+TRAIN_DIR = "data/train"
+VALID_DIR = "data/valid"
+TEST_DIR = "data/test"
 
-print("Classes:", dataset.classes)
+classes = os.listdir(SOURCE_DIR)
 
-print("Number of Images:", len(dataset))
+for class_name in classes:
 
-images, labels = next(iter(dataloader))
+    source_class = os.path.join(
+        SOURCE_DIR,
+        class_name
+    )
 
-print("Batch Shape:", images.shape)
+    images = os.listdir(source_class)
 
-print("Labels Shape:", labels.shape)
+    random.shuffle(images)
+
+    train_size = int(0.70 * len(images))
+    valid_size = int(0.15 * len(images))
+
+    train_images = images[:train_size]
+
+    valid_images = images[
+        train_size:
+        train_size + valid_size
+    ]
+
+    test_images = images[
+        train_size + valid_size:
+    ]
+
+    os.makedirs(
+        os.path.join(TRAIN_DIR, class_name),
+        exist_ok=True
+    )
+
+    os.makedirs(
+        os.path.join(VALID_DIR, class_name),
+        exist_ok=True
+    )
+
+    os.makedirs(
+        os.path.join(TEST_DIR, class_name),
+        exist_ok=True
+    )
+
+    for image in train_images:
+
+        shutil.copy(
+            os.path.join(source_class, image),
+            os.path.join(
+                TRAIN_DIR,
+                class_name,
+                image
+            )
+        )
+
+    for image in valid_images:
+
+        shutil.copy(
+            os.path.join(source_class, image),
+            os.path.join(
+                VALID_DIR,
+                class_name,
+                image
+            )
+        )
+
+    for image in test_images:
+
+        shutil.copy(
+            os.path.join(source_class, image),
+            os.path.join(
+                TEST_DIR,
+                class_name,
+                image
+            )
+        )
+
+print("Dataset Split Finished")

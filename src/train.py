@@ -69,10 +69,17 @@ optimizer = torch.optim.Adam(
 )
 
 
+# Early Stopping Settings
+
 best_accuracy = 0
+
+patience = 3
+counter = 0
 
 EPOCHS = 10
 
+
+# Training Loop
 
 for epoch in range(EPOCHS):
 
@@ -132,9 +139,13 @@ for epoch in range(EPOCHS):
     )
 
 
+    # Save Best Model
+
     if accuracy > best_accuracy:
 
         best_accuracy = accuracy
+
+        counter = 0
 
         torch.save(
             model.state_dict(),
@@ -143,6 +154,27 @@ for epoch in range(EPOCHS):
 
         print("Best Model Saved")
 
+    else:
+
+        counter += 1
+
+        print(
+            f"No Improvement ({counter}/{patience})"
+        )
+
+
+    # Early Stopping
+
+    if counter >= patience:
+
+        print(
+            "Early Stopping Triggered"
+        )
+
+        break
+
 
 print("Training Finished")
-print(f"Best Accuracy: {best_accuracy:.2f}%")
+print(
+    f"Best Accuracy: {best_accuracy:.2f}%"
+)
